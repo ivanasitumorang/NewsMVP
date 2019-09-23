@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activityToolbar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/toolbar_background"
+    android:paddingStart="0dp"
+    android:paddingEnd="15dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <ImageButton
+        android:id="@+id/btnToolbarClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:background="@color/transparent"
+        android:layout_alignBottom="@id/tvToolbarTitle"
+        android:layout_alignTop="@id/tvToolbarTitle"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/tvToolbarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/web_view_title"
+        android:textColor="@color/colorWhite"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:layout_toEndOf="@id/btnToolbarClose"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

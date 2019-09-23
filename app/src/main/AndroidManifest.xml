@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.articles.SourceArticlesActivity"></activity>
+        <activity android:name=".presentation.webview.WebViewActivity"></activity>
+        <activity android:name=".presentation.articles.SourceArticlesActivity" />
         <activity
-            android:configChanges="orientation|keyboardHidden"
-            android:name=".presentation.newssources.NewsSourcesActivity">
+            android:name=".presentation.newssources.NewsSourcesActivity"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

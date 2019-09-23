@@ -16,6 +16,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     private lateinit var mPresenter: SourceArticlePresenter
     private lateinit var source: Source
     private lateinit var mAdapter: SourceArticleAdapter
+    private lateinit var mActivityNavigation: ActivityNavigation
 
     override fun setupToolbar(sourceName: String) {
         btnToolbarBack.visibility = View.VISIBLE
@@ -24,13 +25,22 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     }
 
     override fun setRecyclerView() {
-        mAdapter = SourceArticleAdapter(this, arrayListOf())
+        mAdapter = SourceArticleAdapter(this, arrayListOf(), object : SourceArticleAdapter.ListenerArticle{
+            override fun onClickArticle(link: String, title: String) {
+                mActivityNavigation.navigateToWebView(link, title)
+            }
+
+        })
 
         rvSourceArticleList.adapter = mAdapter
     }
 
     override fun initializeData(source: Source) {
         mPresenter.fetchArticlesBySource(source)
+    }
+
+    override fun setNavigation() {
+        mActivityNavigation = ActivityNavigation(this)
     }
 
     override fun setupUI() {
@@ -57,6 +67,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
             source = bundle.getParcelable(ActivityNavigation.TAG_SOURCE)!!
         }
         mPresenter = SourceArticlePresenter()
+        setNavigation()
         setupUI()
         setupToolbar(source.name)
         setRecyclerView()

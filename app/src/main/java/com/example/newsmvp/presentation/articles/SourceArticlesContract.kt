@@ -12,6 +12,7 @@ class SourceArticlesContract {
         fun setArticles(articles: List<Article>)
         fun setRecyclerView()
         fun setupToolbar(sourceName: String)
+        fun setNavigation()
     }
 
     interface UserActionListener {
