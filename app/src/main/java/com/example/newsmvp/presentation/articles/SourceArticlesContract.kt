@@ -16,6 +16,6 @@ class SourceArticlesContract {
 
     interface UserActionListener {
         fun fetchArticlesBySource(sourceId: String)
-        fun searchArticlesByTitle(sourceId: String)
+        fun searchArticlesByTitle(title: String?)
     }
 }

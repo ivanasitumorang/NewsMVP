@@ -50,6 +50,7 @@ class NewsAdapter (val context: Context, val dataType: String, var data: List<An
     }
 
     fun addData(dataList: List<Any>){
+        data = emptyList()
         data = dataList
         notifyDataSetChanged()
     }

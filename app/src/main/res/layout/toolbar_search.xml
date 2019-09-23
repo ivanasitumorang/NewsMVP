@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activityToolbar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/toolbar_background"
+    android:paddingStart="0dp"
+    android:paddingEnd="15dp">
+
+    <EditText
+        android:id="@+id/tvToolbarSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/colorWhite"
+        android:paddingStart="20dp"
+        android:textSize="18sp"
+        android:hint="@string/search_article"
+        android:textColorHint="@color/colorGrayLight"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:drawableEnd="@drawable/ic_close"
+        android:drawableStart="@drawable/ic_search_white"
+        android:drawablePadding="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"/>
+
+</RelativeLayout>

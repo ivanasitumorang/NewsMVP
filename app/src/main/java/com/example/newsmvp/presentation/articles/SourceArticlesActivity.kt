@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.*
+import android.widget.SearchView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.data.entities.Source
@@ -21,8 +22,36 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
 
     override fun setupToolbar(sourceName: String) {
         btnToolbarBack.visibility = VISIBLE
+        searchView.visibility = VISIBLE
         tvToolbarTitle.text = getString(R.string.source_articles, sourceName)
         btnToolbarBack.setOnClickListener { onBackPressed() }
+        searchView.setOnCloseListener(object : SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                tvToolbarTitle.visibility = VISIBLE
+                btnToolbarBack.visibility = VISIBLE
+                return false
+            }
+        })
+
+        searchView.setOnSearchClickListener(object : OnClickListener{
+            override fun onClick(v: View?) {
+                tvToolbarTitle.visibility = GONE
+                btnToolbarBack.visibility = GONE
+            }
+        })
+        searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                mPresenter.searchArticlesByTitle(query?:"")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mPresenter.searchArticlesByTitle(newText?:"")
+                return true
+            }
+        } )
+
     }
 
     override fun setRecyclerView() {
@@ -71,9 +100,9 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
         }
         mPresenter = SourceArticlePresenter()
         setNavigation()
+        setRecyclerView()
         setupUI()
         setupToolbar(sourceName)
-        setRecyclerView()
         initializeData(sourceId)
     }
 
