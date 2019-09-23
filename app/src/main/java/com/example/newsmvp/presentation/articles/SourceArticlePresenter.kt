@@ -10,7 +10,7 @@ import retrofit2.Response
 
 class SourceArticlePresenter : SourceArticlesContract.UserActionListener {
 
-    lateinit var mView: SourceArticlesContract.View
+    private lateinit var mView: SourceArticlesContract.View
     private var _response = String()
     override fun fetchArticlesBySource(source: Source) {
         mView.showProgressBar()
@@ -26,13 +26,16 @@ class SourceArticlePresenter : SourceArticlesContract.UserActionListener {
                     response: Response<ArticlesResult>
                 ) {
                     Log.i("SOURCE ARTICLES", "Total articles from ${source.name} : ${response.body()?.totalResults ?: 0}")
-                    mView.setArticles(response.body()!!.articles)
+                    response.body()?.articles?.let {
+                        mView.setArticles(it)
+                    }
+                    mView.setArticles(response.body()?.articles ?: emptyList())
                     mView.hideProgressBar()
                 }
             })
     }
 
-    override fun searchArticlesByTitle(sourceId: String) {
+    override fun searchArticlesByTitle(title: String) {
 
     }
 

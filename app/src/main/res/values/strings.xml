@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">NewsMVP</string>
     <string name="total_source">Total sources: %d</string>
+    <string name="source_articles">Articles of %s</string>
 </resources>

@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.articles.SourceArticlesActivity"></activity>
-        <activity android:name=".presentation.main.MainActivity">
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".presentation.newssources.NewsSourcesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

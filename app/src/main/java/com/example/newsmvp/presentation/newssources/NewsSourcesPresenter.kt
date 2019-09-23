@@ -1,4 +1,4 @@
-package com.example.newsmvp.presentation.main
+package com.example.newsmvp.presentation.newssources
 
 import com.example.newsmvp.data.entities.newsapi.SourcesResult
 import com.example.newsmvp.data.network.NewsApi
@@ -6,9 +6,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainPresenter : MainContract.UserActionListener{
+class NewsSourcesPresenter : NewsSourcesContract.UserActionListener{
 
-    lateinit var mView: MainContract.View
+    lateinit var mView: NewsSourcesContract.View
     var _response = String()
 
     override fun fetchNewsSources(language: String, country: String) {
@@ -32,7 +32,7 @@ class MainPresenter : MainContract.UserActionListener{
 
     }
 
-    fun setView(view: MainContract.View){
+    fun setView(view: NewsSourcesContract.View){
         mView = view
     }
 

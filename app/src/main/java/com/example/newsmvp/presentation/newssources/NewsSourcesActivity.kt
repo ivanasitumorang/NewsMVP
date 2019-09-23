@@ -1,19 +1,23 @@
-package com.example.newsmvp.presentation.main
+package com.example.newsmvp.presentation.newssources
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.*
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Source
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_news_sources.*
+import kotlinx.android.synthetic.main.toolbar_activity.*
 
-class MainActivity : AppCompatActivity(), MainContract.View {
+class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
+
+    lateinit var mPresenter : NewsSourcesPresenter
+    lateinit var mAdapter: MainAdapter
+    lateinit var mActivityNavigation: ActivityNavigation
+
     override fun showProgressBar() {
         loadingIndicator.visibility = VISIBLE
     }
@@ -22,9 +26,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         loadingIndicator.visibility = GONE
     }
 
-    lateinit var mPresenter : MainPresenter
-    lateinit var mAdapter: MainAdapter
-    lateinit var mActivityNavigation: ActivityNavigation
+    override fun setupToolbar() {
+        tvToolbarTitle.text = "News Sources"
+    }
 
     override fun setNavigation() {
         mActivityNavigation = ActivityNavigation(this)
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         mAdapter = MainAdapter(this, arrayListOf(), object : MainAdapter.ListenerNewsSource {
             override fun onClickNewsSource(source: Source) {
                 mActivityNavigation.navigateToSourceArticles(source)
-//                Toast.makeText(this@MainActivity, "${source.name} is clicked!", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this@NewsSourcesActivity, "${source.name} is clicked!", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -56,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun setupUI() {
         mPresenter.setView(this)
+        setupToolbar()
     }
 
     override fun initializeData() {
@@ -64,8 +69,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        mPresenter = MainPresenter()
+        setContentView(R.layout.activity_news_sources)
+        mPresenter = NewsSourcesPresenter()
         setupUI()
         setNavigation()
         setRecyclerView()

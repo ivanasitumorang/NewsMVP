@@ -11,6 +11,7 @@ class SourceArticlesContract {
         fun hideProgressBar()
         fun setArticles(articles: List<Article>)
         fun setRecyclerView()
+        fun setupToolbar(sourceName: String)
     }
 
     interface UserActionListener {

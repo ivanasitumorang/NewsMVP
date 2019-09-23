@@ -1,8 +1,8 @@
-package com.example.newsmvp.presentation.main
+package com.example.newsmvp.presentation.newssources
 
 import com.example.newsmvp.data.entities.Source
 
-class MainContract {
+class NewsSourcesContract {
     interface View {
         fun initializeData()
         fun setupUI()
@@ -11,6 +11,7 @@ class MainContract {
         fun setNavigation()
         fun showProgressBar()
         fun hideProgressBar()
+        fun setupToolbar()
     }
 
     interface UserActionListener {

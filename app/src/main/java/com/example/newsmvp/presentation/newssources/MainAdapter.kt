@@ -1,4 +1,4 @@
-package com.example.newsmvp.presentation.main
+package com.example.newsmvp.presentation.newssources
 
 import android.annotation.SuppressLint
 import android.content.Context
