@@ -30,6 +30,11 @@ class WebViewActivity : AppCompatActivity(){
     }
 
     fun setContent(link: String){
+        webview.settings.javaScriptEnabled = true
+        webview.settings.javaScriptCanOpenWindowsAutomatically = true
+        webview.clearCache(true)
+        webview.clearHistory()
         webview.loadUrl(link)
+        webview.isHorizontalScrollBarEnabled = true
     }
 }
