@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Source
+import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
 import kotlinx.android.synthetic.main.activity_news_sources.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.toolbar_activity.*
 class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     lateinit var mPresenter : NewsSourcesPresenter
-    lateinit var mAdapter: MainAdapter
+    lateinit var mAdapter: NewsAdapter
     lateinit var mActivityNavigation: ActivityNavigation
 
     override fun showProgressBar() {
@@ -43,10 +44,9 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
             }
         }
 
-        mAdapter = MainAdapter(this, arrayListOf(), object : MainAdapter.ListenerNewsSource {
-            override fun onClickNewsSource(source: Source) {
-                mActivityNavigation.navigateToSourceArticles(source)
-//                Toast.makeText(this@NewsSourcesActivity, "${source.name} is clicked!", Toast.LENGTH_LONG).show()
+        mAdapter = NewsAdapter(this, NewsAdapter.DATA_TYPE_SOURCE, arrayListOf<Source>(), object : NewsAdapter.ListenerSource {
+            override fun onClickSourceItem(sourceId: String, sourceName: String) {
+                mActivityNavigation.navigateToSourceArticles(sourceId, sourceName)
             }
 
         })

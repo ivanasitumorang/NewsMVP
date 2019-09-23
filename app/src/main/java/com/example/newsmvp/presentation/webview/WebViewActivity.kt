@@ -24,6 +24,11 @@ class WebViewActivity : AppCompatActivity(){
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     fun setupToolbar(title:String?){
         tvToolbarTitle.text = title ?: getString(R.string.web_view_title)
         btnToolbarClose.setOnClickListener { onBackPressed() }

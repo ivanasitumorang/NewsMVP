@@ -11,18 +11,20 @@ import com.example.newsmvp.presentation.webview.WebViewActivity
 class ActivityNavigation internal constructor(val activity: AppCompatActivity){
 
     companion object {
-        const val TAG_SOURCE = "source"
+        const val TAG_SOURCE_ID = "SOURCE_ID"
+        const val TAG_SOURCE_NAME = "SOURCE_NAME"
     }
 
     /**
      * Navigate To Source's Articles
      * @param source
      **/
-    fun navigateToSourceArticles(source: Source){
+    fun navigateToSourceArticles(sourceId: String, sourceName: String){
         val sourceArticlesPage = newIntent(activity, SourceArticlesActivity::class.java)
         sourceArticlesPage.apply {
             // using parcelable extra
-            putExtra(TAG_SOURCE, source)
+            putExtra(TAG_SOURCE_ID, sourceId)
+            putExtra(TAG_SOURCE_NAME, sourceName)
         }
         activity.startActivity(sourceArticlesPage)
     }

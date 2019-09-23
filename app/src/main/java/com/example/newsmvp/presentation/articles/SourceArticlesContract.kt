@@ -1,11 +1,10 @@
 package com.example.newsmvp.presentation.articles
 
 import com.example.newsmvp.data.entities.Article
-import com.example.newsmvp.data.entities.Source
 
 class SourceArticlesContract {
     interface View {
-        fun initializeData(source: Source)
+        fun initializeData(sourceId: String)
         fun setupUI()
         fun showProgressBar()
         fun hideProgressBar()
@@ -16,7 +15,7 @@ class SourceArticlesContract {
     }
 
     interface UserActionListener {
-        fun fetchArticlesBySource(source: Source)
+        fun fetchArticlesBySource(sourceId: String)
         fun searchArticlesByTitle(sourceId: String)
     }
 }

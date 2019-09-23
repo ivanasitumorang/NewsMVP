@@ -12,9 +12,9 @@ class SourceArticlePresenter : SourceArticlesContract.UserActionListener {
 
     private lateinit var mView: SourceArticlesContract.View
     private var _response = String()
-    override fun fetchArticlesBySource(source: Source) {
+    override fun fetchArticlesBySource(sourceId: String) {
         mView.showProgressBar()
-        NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, source.id!!)
+        NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
             .enqueue(object : Callback<ArticlesResult> {
                 override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
                     _response = "Failure : " + t.message
@@ -25,7 +25,7 @@ class SourceArticlePresenter : SourceArticlesContract.UserActionListener {
                     call: Call<ArticlesResult>,
                     response: Response<ArticlesResult>
                 ) {
-                    Log.i("SOURCE ARTICLES", "Total articles from ${source.name} : ${response.body()?.totalResults ?: 0}")
+                    Log.i("SOURCE ARTICLES", "Total articles from ${sourceId} : ${response.body()?.totalResults ?: 0}")
                     response.body()?.articles?.let {
                         mView.setArticles(it)
                     }
