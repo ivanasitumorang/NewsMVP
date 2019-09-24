@@ -6,7 +6,7 @@ import com.example.newsmvp.R
 import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlinx.android.synthetic.main.toolbar_webview.*
 
-class WebViewActivity : AppCompatActivity(){
+class WebViewActivity : AppCompatActivity() {
 
 
     companion object {
@@ -18,7 +18,7 @@ class WebViewActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
         val bundle = intent.extras
-        if (bundle!=null){
+        if (bundle != null) {
             setContent(bundle.getString(ARG_LINK, ARG_TITLE))
             setupToolbar(bundle.getString(ARG_TITLE, getString(R.string.web_view_title)))
         }
@@ -29,17 +29,17 @@ class WebViewActivity : AppCompatActivity(){
         finish()
     }
 
-    fun setupToolbar(title:String?){
+    fun setupToolbar(title: String?) {
         tvToolbarTitle.text = title ?: getString(R.string.web_view_title)
         btnToolbarClose.setOnClickListener { onBackPressed() }
     }
 
-    fun setContent(link: String){
-        webview.settings.javaScriptEnabled = true
-        webview.settings.javaScriptCanOpenWindowsAutomatically = true
-        webview.clearCache(true)
-        webview.clearHistory()
-        webview.loadUrl(link)
-        webview.isHorizontalScrollBarEnabled = true
+    fun setContent(link: String) {
+        webView.settings.javaScriptEnabled = true
+        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+        webView.clearCache(true)
+        webView.clearHistory()
+        webView.loadUrl(link)
+        webView.isHorizontalScrollBarEnabled = true
     }
 }

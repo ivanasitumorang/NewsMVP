@@ -11,18 +11,17 @@ import com.example.newsmvp.data.entities.Source
 import kotlinx.android.synthetic.main.item_article.view.*
 import kotlinx.android.synthetic.main.item_source.view.*
 
-class NewsAdapter (val context: Context, val dataType: String, var data: List<Any>, val listener: Any): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
+class NewsAdapter (private val context: Context, private val dataType: String, var data: List<Any>, private val listener: Any): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
 
     companion object {
         const val DATA_TYPE_ARTICLE = "TYPE_ARTICLE"
         const val DATA_TYPE_SOURCE = "TYPE_SOURCE"
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        if (dataType.equals(DATA_TYPE_ARTICLE)){
-            return NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_article, null))
-        } else return NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_source, null))
+        return if (dataType == DATA_TYPE_ARTICLE){
+            NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_article, null))
+        } else NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_source, null))
     }
 
     override fun getItemCount(): Int = data.size
@@ -35,8 +34,8 @@ class NewsAdapter (val context: Context, val dataType: String, var data: List<An
         fun bind(item: Any, listener: Any) = with(itemView){
             if (item is Article){
                 listener as ListenerArticle
-                tvArticleTitle.text = item.title
-                tvArticleAuthor.text = item.author ?: "Undefined"
+                tvArticleTitle.text = item.title ?: "Undefined Title"
+                tvArticleAuthor.text = context.getString(R.string.article_author,item.author ?: "Undefined Author")
                 tvArticleDescription.text = item.description
                 itemArticle.setOnClickListener { listener.onClickArticleItem(item.url, item.title) }
             } else {

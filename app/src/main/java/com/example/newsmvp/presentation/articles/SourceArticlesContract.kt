@@ -12,6 +12,8 @@ class SourceArticlesContract {
         fun setRecyclerView()
         fun setupToolbar(sourceName: String)
         fun setNavigation()
+        fun showNoSearchResult(query: String?)
+        fun hideNoSearchResult()
     }
 
     interface UserActionListener {

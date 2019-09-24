@@ -15,9 +15,24 @@ import kotlinx.android.synthetic.main.toolbar_activity.*
 
 class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
-    lateinit var mPresenter : NewsSourcesPresenter
-    lateinit var mAdapter: NewsAdapter
-    lateinit var mActivityNavigation: ActivityNavigation
+    private lateinit var mPresenter: NewsSourcesPresenter
+    private lateinit var mAdapter: NewsAdapter
+    private lateinit var mActivityNavigation: ActivityNavigation
+
+    companion object {
+        const val TAG_SOURCE_ID = "SOURCE_ID"
+        const val TAG_SOURCE_NAME = "SOURCE_NAME"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_news_sources)
+        mPresenter = NewsSourcesPresenter()
+        setupUI()
+        setNavigation()
+        setRecyclerView()
+        initializeData()
+    }
 
     override fun showProgressBar() {
         loadingIndicator.visibility = VISIBLE
@@ -40,16 +55,21 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
             override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
                 return RecyclerView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT)
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
         }
 
-        mAdapter = NewsAdapter(this, NewsAdapter.DATA_TYPE_SOURCE, arrayListOf<Source>(), object : NewsAdapter.ListenerSource {
-            override fun onClickSourceItem(sourceId: String, sourceName: String) {
-                mActivityNavigation.navigateToSourceArticles(sourceId, sourceName)
-            }
+        mAdapter = NewsAdapter(
+            this,
+            NewsAdapter.DATA_TYPE_SOURCE,
+            arrayListOf<Source>(),
+            object : NewsAdapter.ListenerSource {
+                override fun onClickSourceItem(sourceId: String, sourceName: String) {
+                    mActivityNavigation.navigateToSourceArticles(sourceId, sourceName)
+                }
 
-        })
+            })
         rvNewsSourceList.layoutManager = layoutManager
         rvNewsSourceList.adapter = mAdapter
     }
@@ -65,16 +85,6 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     override fun initializeData() {
         mPresenter.fetchNewsSources("en", "us")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news_sources)
-        mPresenter = NewsSourcesPresenter()
-        setupUI()
-        setNavigation()
-        setRecyclerView()
-        initializeData()
     }
 
 }

@@ -26,6 +26,7 @@
                 android:id="@+id/tvSourceName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 tools:text="News Title"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -35,7 +36,9 @@
                 android:id="@+id/tvSourceDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
                 tools:text="News Description"
+                android:textColor="@color/colorGrayDark"
                 android:layout_marginTop="8dp"/>
 
         </LinearLayout>

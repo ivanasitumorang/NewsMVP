@@ -26,6 +26,7 @@
                 android:id="@+id/tvArticleTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 tools:text="Article Title"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -35,12 +36,16 @@
                 android:id="@+id/tvArticleAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/colorGrayDark"
                 tools:text="By : Ivana Azuka"/>
 
             <TextView
                 android:id="@+id/tvArticleDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/colorGrayDark"
                 tools:text="Article Description"
                 android:layout_marginTop="8dp"
                 android:textSize="16sp"/>
