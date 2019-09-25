@@ -7,12 +7,10 @@ import android.view.View.*
 import android.widget.SearchView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Article
-import com.example.newsmvp.data.entities.Source
 import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_ID
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_NAME
-import com.example.newsmvp.presentation.webview.WebViewActivity
 import kotlinx.android.synthetic.main.activity_source_articles.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
 
@@ -24,7 +22,6 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_source_articles)
         var sourceId = ""
         var sourceName = ""
         val bundle = intent.extras
@@ -32,9 +29,6 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
             sourceId = bundle.getString(TAG_SOURCE_ID, "")
             sourceName = bundle.getString(TAG_SOURCE_NAME, "Articles")
         }
-        mPresenter = SourceArticlePresenter()
-        setNavigation()
-        setRecyclerView()
         setupUI()
         setupToolbar(sourceName)
         initializeData(sourceId)
@@ -50,34 +44,29 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
         searchView.visibility = VISIBLE
         tvToolbarTitle.text = getString(R.string.source_articles, sourceName)
         btnToolbarBack.setOnClickListener { onBackPressed() }
-        searchView.setOnCloseListener(object : SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                tvToolbarTitle.visibility = VISIBLE
-                btnToolbarBack.visibility = VISIBLE
-                return false
-            }
-        })
+        searchView.setOnCloseListener {
+            tvToolbarTitle.visibility = VISIBLE
+            btnToolbarBack.visibility = VISIBLE
+            false
+        }
 
-        searchView.setOnSearchClickListener(object : OnClickListener {
-            override fun onClick(v: View?) {
-                tvToolbarTitle.visibility = GONE
-                btnToolbarBack.visibility = GONE
-            }
-        })
+        searchView.setOnSearchClickListener {
+            tvToolbarTitle.visibility = GONE
+            btnToolbarBack.visibility = GONE
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                mPresenter.searchArticlesByTitle(query ?: "")
+                mPresenter.searchArticlesByTitle(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                mPresenter.searchArticlesByTitle(newText ?: "")
+                mPresenter.searchArticlesByTitle(newText)
                 return true
             }
         })
-
     }
 
     override fun setRecyclerView() {
@@ -87,10 +76,9 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
             arrayListOf<Article>(),
             object : NewsAdapter.ListenerArticle {
                 override fun onClickArticleItem(articleUrl: String, articleTitle: String?) {
-                    mActivityNavigation.navigateToWebView(articleUrl, articleTitle ?: "Web View")
+                    mActivityNavigation.navigateToWebView(articleUrl, articleTitle ?: getString(R.string.web_view))
                 }
             })
-
         rvSourceArticleList.adapter = mAdapter
     }
 
@@ -103,7 +91,11 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     }
 
     override fun setupUI() {
+        setContentView(R.layout.activity_source_articles)
+        mPresenter = SourceArticlePresenter()
         mPresenter.setView(this)
+        setNavigation()
+        setRecyclerView()
     }
 
     override fun showProgressBar() {
@@ -115,7 +107,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     }
 
     override fun setArticles(articles: List<Article>) {
-        mAdapter.addData(articles)
+        mAdapter.setList(articles)
     }
 
     override fun showNoSearchResult(query: String?) {

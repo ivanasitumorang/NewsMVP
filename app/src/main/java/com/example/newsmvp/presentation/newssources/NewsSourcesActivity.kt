@@ -3,9 +3,6 @@ package com.example.newsmvp.presentation.newssources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.*
-import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Source
 import com.example.newsmvp.presentation.adapter.NewsAdapter
@@ -26,11 +23,7 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news_sources)
-        mPresenter = NewsSourcesPresenter()
         setupUI()
-        setNavigation()
-        setRecyclerView()
         initializeData()
     }
 
@@ -43,7 +36,7 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
     }
 
     override fun setupToolbar() {
-        tvToolbarTitle.text = "News Sources"
+        tvToolbarTitle.text = getString(R.string.news_sources)
     }
 
     override fun setNavigation() {
@@ -51,15 +44,6 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
     }
 
     override fun setRecyclerView() {
-        val layoutManager = object : LinearLayoutManager(this) {
-            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-                return RecyclerView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
-        }
-
         mAdapter = NewsAdapter(
             this,
             NewsAdapter.DATA_TYPE_SOURCE,
@@ -68,19 +52,21 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
                 override fun onClickSourceItem(sourceId: String, sourceName: String) {
                     mActivityNavigation.navigateToSourceArticles(sourceId, sourceName)
                 }
-
             })
-        rvNewsSourceList.layoutManager = layoutManager
         rvNewsSourceList.adapter = mAdapter
     }
 
     override fun setNewsSources(sources: List<Source>) {
-        mAdapter.addData(sources)
+        mAdapter.setList(sources)
     }
 
     override fun setupUI() {
+        setContentView(R.layout.activity_news_sources)
+        mPresenter = NewsSourcesPresenter()
         mPresenter.setView(this)
         setupToolbar()
+        setNavigation()
+        setRecyclerView()
     }
 
     override fun initializeData() {

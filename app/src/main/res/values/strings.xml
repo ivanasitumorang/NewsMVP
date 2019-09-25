@@ -6,4 +6,7 @@
     <string name="back_button">Back Button</string>
     <string name="no_result_search">No articles with title : "%s"</string>
     <string name="article_author">Author : %s</string>
+    <string name="loading_indicator">Loading Indicator</string>
+    <string name="news_sources">News Sources</string>
+    <string name="web_view">Web View</string>
 </resources>

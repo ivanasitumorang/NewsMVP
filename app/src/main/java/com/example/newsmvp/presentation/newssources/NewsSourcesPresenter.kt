@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsSourcesPresenter : NewsSourcesContract.UserActionListener {
+class NewsSourcesPresenter : NewsSourcesContract.Presenter {
 
     lateinit var mView: NewsSourcesContract.View
 
@@ -28,7 +28,7 @@ class NewsSourcesPresenter : NewsSourcesContract.UserActionListener {
             })
     }
 
-    fun setView(view: NewsSourcesContract.View) {
+    override fun setView(view: NewsSourcesContract.View) {
         mView = view
     }
 

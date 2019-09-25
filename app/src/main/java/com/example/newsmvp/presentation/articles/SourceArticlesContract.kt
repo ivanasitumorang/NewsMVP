@@ -1,5 +1,6 @@
 package com.example.newsmvp.presentation.articles
 
+import android.os.Bundle
 import com.example.newsmvp.data.entities.Article
 
 class SourceArticlesContract {
@@ -16,8 +17,9 @@ class SourceArticlesContract {
         fun hideNoSearchResult()
     }
 
-    interface UserActionListener {
+    interface Presenter {
         fun fetchArticlesBySource(sourceId: String)
         fun searchArticlesByTitle(title: String?)
+        fun setView(view: SourceArticlesContract.View)
     }
 }

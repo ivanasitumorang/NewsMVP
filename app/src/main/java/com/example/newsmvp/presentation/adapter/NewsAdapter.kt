@@ -48,14 +48,13 @@ class NewsAdapter (private val context: Context, private val dataType: String, v
         }
     }
 
-    fun addData(dataList: List<Any>){
-        data = emptyList()
+    fun setList(dataList: List<Any>){
         data = dataList
         notifyDataSetChanged()
     }
 
     interface ListenerSource {
-        fun onClickSourceItem(sourceId:String, sourceTitle:String)
+        fun onClickSourceItem(sourceId:String, sourceName:String)
     }
 
     interface ListenerArticle {

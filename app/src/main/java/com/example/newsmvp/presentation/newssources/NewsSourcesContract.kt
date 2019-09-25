@@ -14,7 +14,8 @@ class NewsSourcesContract {
         fun setupToolbar()
     }
 
-    interface UserActionListener {
+    interface Presenter {
         fun fetchNewsSources(language: String, country: String)
+        fun setView(view: View)
     }
 }
