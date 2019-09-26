@@ -12,9 +12,9 @@ import retrofit2.Response
 class SourceArticlePresenter : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
+    private lateinit var mCall: Call<ArticlesResult>
     private var articleList = emptyList<Article>()
     private var filterArticleList = emptyList<Article>()
-
 
     /**
      * func to fetch articles by certain source from endpoint
@@ -22,17 +22,17 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
      * */
     override fun fetchArticlesBySource(sourceId: String) {
         mView.showProgressBar()
-        NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
-            .enqueue(object : Callback<ArticlesResult> {
-                override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
-                    mView.hideProgressBar()
-                    articleList = emptyList()
-                }
+        mCall = NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
+        mCall.enqueue(object : Callback<ArticlesResult> {
+            override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
+                mView.hideProgressBar()
+            }
 
-                override fun onResponse(
-                    call: Call<ArticlesResult>,
-                    response: Response<ArticlesResult>
-                ) {
+            override fun onResponse(
+                call: Call<ArticlesResult>,
+                response: Response<ArticlesResult>
+            ) {
+                if (response.isSuccessful) {
                     Log.i(
                         "SOURCE ARTICLES",
                         "Total articles from $sourceId : ${response.body()?.totalResults ?: 0}"
@@ -40,8 +40,11 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
                     articleList = response.body()?.articles ?: emptyList()
                     mView.setArticles(articleList)
                     mView.hideProgressBar()
+                } else {
+                    mView.hideProgressBar()
                 }
-            })
+            }
+        })
     }
 
     /**
@@ -50,13 +53,13 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
      * */
     @SuppressLint("DefaultLocale")
     override fun searchArticlesByTitle(title: String?) {
-        Log.i("data", title ?: "TIDAK ADA")
         title?.let {
             filterArticleList =
                 articleList.filter {
-                        it.title!!.toLowerCase().contains(title.toLowerCase()) }
+                    it.title!!.toLowerCase().contains(title.toLowerCase())
+                }
         }
-        if (filterArticleList.isEmpty()){
+        if (filterArticleList.isEmpty()) {
             mView.showNoSearchResult(title)
         } else mView.hideNoSearchResult()
 
@@ -65,6 +68,10 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
 
     override fun setView(view: SourceArticlesContract.View) {
         mView = view
+    }
+
+    override fun cancelFetchArticles() {
+        mCall.cancel()
     }
 
 }

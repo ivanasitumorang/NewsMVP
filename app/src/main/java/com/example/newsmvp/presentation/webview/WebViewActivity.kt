@@ -18,7 +18,7 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
         val bundle = intent.extras
-        if (bundle != null) {
+        bundle?.let {
             setContent(bundle.getString(ARG_LINK, ARG_TITLE))
             setupToolbar(bundle.getString(ARG_TITLE, getString(R.string.web_view_title)))
         }

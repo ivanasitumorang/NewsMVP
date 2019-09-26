@@ -23,8 +23,16 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_news_sources)
+        mPresenter = NewsSourcesPresenter()
+        mPresenter.setView(this)
         setupUI()
         initializeData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.cancelFetchSources()
     }
 
     override fun showProgressBar() {
@@ -56,14 +64,11 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
         rvNewsSourceList.adapter = mAdapter
     }
 
-    override fun setNewsSources(sources: List<Source>) {
+    override fun setNewsSources(sources: List<Source>?) {
         mAdapter.setList(sources)
     }
 
     override fun setupUI() {
-        setContentView(R.layout.activity_news_sources)
-        mPresenter = NewsSourcesPresenter()
-        mPresenter.setView(this)
         setupToolbar()
         setNavigation()
         setRecyclerView()

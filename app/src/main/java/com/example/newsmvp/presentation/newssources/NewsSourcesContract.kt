@@ -7,7 +7,7 @@ class NewsSourcesContract {
         fun initializeData()
         fun setupUI()
         fun setRecyclerView()
-        fun setNewsSources(sources: List<Source>)
+        fun setNewsSources(sources: List<Source>?)
         fun setNavigation()
         fun showProgressBar()
         fun hideProgressBar()
@@ -17,5 +17,6 @@ class NewsSourcesContract {
     interface Presenter {
         fun fetchNewsSources(language: String, country: String)
         fun setView(view: View)
+        fun cancelFetchSources()
     }
 }

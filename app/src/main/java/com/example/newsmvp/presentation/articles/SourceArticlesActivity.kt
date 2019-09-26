@@ -20,10 +20,15 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     private lateinit var mAdapter: NewsAdapter
     private lateinit var mActivityNavigation: ActivityNavigation
 
+    private var sourceId = ""
+    private var sourceName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var sourceId = ""
-        var sourceName = ""
+        setContentView(R.layout.activity_source_articles)
+        mPresenter = SourceArticlePresenter()
+        mPresenter.setView(this)
+
         val bundle = intent.extras
         if (bundle != null) {
             sourceId = bundle.getString(TAG_SOURCE_ID, "")
@@ -38,6 +43,12 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
         super.onBackPressed()
         finish()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.cancelFetchArticles()
+    }
+
 
     override fun setupToolbar(sourceName: String) {
         btnToolbarBack.visibility = VISIBLE
@@ -91,9 +102,6 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     }
 
     override fun setupUI() {
-        setContentView(R.layout.activity_source_articles)
-        mPresenter = SourceArticlePresenter()
-        mPresenter.setView(this)
         setNavigation()
         setRecyclerView()
     }
@@ -106,7 +114,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
         loadingIndicator.visibility = GONE
     }
 
-    override fun setArticles(articles: List<Article>) {
+    override fun setArticles(articles: List<Article>?) {
         mAdapter.setList(articles)
     }
 

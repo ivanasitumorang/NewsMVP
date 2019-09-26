@@ -43,13 +43,17 @@ class NewsAdapter (private val context: Context, private val dataType: String, v
                 listener as ListenerSource
                 tvSourceName.text = item.name
                 tvSourceDescription.text = item.description
-                itemSource.setOnClickListener { listener.onClickSourceItem(item.id!!, item.name) }
+                item.id?.let {id ->
+                    itemSource.setOnClickListener { listener.onClickSourceItem(id, item.name) }
+                }
             }
         }
     }
 
-    fun setList(dataList: List<Any>){
-        data = dataList
+    fun setList(dataList: List<Any>?){
+        dataList?.let {
+            data = it
+        }
         notifyDataSetChanged()
     }
 
