@@ -69,7 +69,7 @@ class SourceArticlesPresenterTest {
         val articleList = listOf(article)
         mSourcesArticlePresenter.articleList = articleList
         mSourcesArticlePresenter.searchArticlesByTitle(titleQuery)
-        verify(mView).hideNoSearchResult()
+        verify(mView).showNoSearchResult(titleQuery)
     }
 
     @Test
