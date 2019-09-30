@@ -13,7 +13,7 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
     private lateinit var mCall: Call<ArticlesResult>
-    private var articleList = emptyList<Article>()
+    var articleList = emptyList<Article>()
     private var filterArticleList = emptyList<Article>()
 
     /**
