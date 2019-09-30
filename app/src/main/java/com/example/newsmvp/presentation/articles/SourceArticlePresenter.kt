@@ -5,6 +5,9 @@ import android.util.Log
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.network.NewsApi
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,9 +15,10 @@ import retrofit2.Response
 class SourceArticlePresenter : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
-    private lateinit var mCall: Call<ArticlesResult>
+    //    private lateinit var mCall: Call<ArticlesResult>
     var articleList = emptyList<Article>()
     private var filterArticleList = emptyList<Article>()
+    private var mCompositeDisposable = CompositeDisposable()
 
     /**
      * func to fetch articles by certain source from endpoint
@@ -22,29 +26,43 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
      * */
     override fun fetchArticlesBySource(sourceId: String) {
         mView.showProgressBar()
-        mCall = NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
-        mCall.enqueue(object : Callback<ArticlesResult> {
-            override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
-                mView.hideProgressBar()
-            }
-
-            override fun onResponse(
-                call: Call<ArticlesResult>,
-                response: Response<ArticlesResult>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i(
-                        "SOURCE ARTICLES",
-                        "Total articles from $sourceId : ${response.body()?.totalResults ?: 0}"
-                    )
-                    articleList = response.body()?.articles ?: emptyList()
-                    mView.setArticles(articleList)
-                    mView.hideProgressBar()
-                } else {
-                    mView.hideProgressBar()
-                }
-            }
-        })
+        mCompositeDisposable.add(
+            NewsApi.retrofitService
+                .getArticlesBySource(NewsApi.API_KEY, sourceId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                    { articleResult ->
+                        mView.setArticles(articleResult.articles)
+                        mView.hideProgressBar()
+                    },
+                    {
+                        mView.hideProgressBar()
+                    })
+        )
+//        mCall = NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
+//        mCall.enqueue(object : Callback<ArticlesResult> {
+//            override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
+//                mView.hideProgressBar()
+//            }
+//
+//            override fun onResponse(
+//                call: Call<ArticlesResult>,
+//                response: Response<ArticlesResult>
+//            ) {
+//                if (response.isSuccessful) {
+//                    Log.i(
+//                        "SOURCE ARTICLES",
+//                        "Total articles from $sourceId : ${response.body()?.totalResults ?: 0}"
+//                    )
+//                    articleList = response.body()?.articles ?: emptyList()
+//                    mView.setArticles(articleList)
+//                    mView.hideProgressBar()
+//                } else {
+//                    mView.hideProgressBar()
+//                }
+//            }
+//        })
     }
 
     /**
@@ -71,7 +89,8 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
     }
 
     override fun cancelFetchArticles() {
-        mCall.cancel()
+        mCompositeDisposable.clear()
+//        mCall.cancel()
     }
 
 }

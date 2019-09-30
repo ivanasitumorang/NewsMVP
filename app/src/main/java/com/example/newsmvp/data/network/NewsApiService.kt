@@ -3,8 +3,9 @@ package com.example.newsmvp.data.network
 
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.entities.newsapi.SourcesResult
-import retrofit2.Call
+import io.reactivex.Flowable
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,6 +13,7 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://newsapi.org/"
 
 private val retrofit = Retrofit.Builder()
+    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
     .build()
@@ -22,13 +24,13 @@ interface NewsApiService {
         @Query("apiKey") apiKey: String,
         @Query("language") language: String,
         @Query("country") country: String
-    ) : Call<SourcesResult>
+    ) : Flowable<SourcesResult>
 
     @GET("v2/everything")
     fun getArticlesBySource(
         @Query("apiKey") apiKey: String,
         @Query("sources") source: String
-    ) : Call<ArticlesResult>
+    ) : Flowable<ArticlesResult>
 }
 
 object NewsApi {
