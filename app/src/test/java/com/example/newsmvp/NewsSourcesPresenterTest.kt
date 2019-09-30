@@ -1,22 +1,11 @@
 package com.example.newsmvp
 
-import com.example.newsmvp.data.entities.Source
-import com.example.newsmvp.data.entities.newsapi.SourcesResult
-import com.example.newsmvp.data.network.NewsApi
 import com.example.newsmvp.data.network.NewsApiService
 import com.example.newsmvp.presentation.newssources.NewsSourcesContract
 import com.example.newsmvp.presentation.newssources.NewsSourcesPresenter
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.*
-import org.mockito.stubbing.Answer
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.awaitResponse
-import retrofit2.mock.Calls
-
 
 /**
  * Created by ivanaazuka on 9/26/2019.

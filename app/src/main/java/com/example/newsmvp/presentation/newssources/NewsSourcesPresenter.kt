@@ -16,8 +16,6 @@ import retrofit2.Response
 class NewsSourcesPresenter : NewsSourcesContract.Presenter {
 
     private lateinit var mView: NewsSourcesContract.View
-    //    private lateinit var mCall: Call<SourcesResult>
-    private var sourceList = emptyList<Source>()
     private var mCompositeDisposable = CompositeDisposable()
 
     override fun fetchNewsSources(language: String, country: String) {
@@ -36,25 +34,6 @@ class NewsSourcesPresenter : NewsSourcesContract.Presenter {
                         mView.hideProgressBar()
                     })
         )
-//        mCall = NewsApi.retrofitService.getNewsSources(NewsApi.API_KEY, language, country)
-//        mCall.enqueue(object : Callback<SourcesResult> {
-//            override fun onFailure(call: Call<SourcesResult>, t: Throwable) {
-//                mView.hideProgressBar()
-//            }
-//
-//            override fun onResponse(
-//                call: Call<SourcesResult>,
-//                response: Response<SourcesResult>
-//            ) {
-//                if (response.isSuccessful) {
-//                    sourceList = response.body()?.sources ?: emptyList()
-//                    mView.setNewsSources(sourceList)
-//                    mView.hideProgressBar()
-//                } else {
-//                    mView.hideProgressBar()
-//                }
-//            }
-//        })
     }
 
     override fun setView(view: NewsSourcesContract.View) {
@@ -63,6 +42,5 @@ class NewsSourcesPresenter : NewsSourcesContract.Presenter {
 
     override fun cancelFetchSources() {
         mCompositeDisposable.clear()
-//        mCall.cancel()
     }
 }

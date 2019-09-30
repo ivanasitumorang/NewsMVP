@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.network.NewsApi
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -33,55 +34,35 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     { articleResult ->
-                        mView.setArticles(articleResult.articles)
+                        articleList = articleResult.articles
+                        mView.setArticles(articleList)
                         mView.hideProgressBar()
                     },
                     {
                         mView.hideProgressBar()
                     })
         )
-//        mCall = NewsApi.retrofitService.getArticlesBySource(NewsApi.API_KEY, sourceId)
-//        mCall.enqueue(object : Callback<ArticlesResult> {
-//            override fun onFailure(call: Call<ArticlesResult>, t: Throwable) {
-//                mView.hideProgressBar()
-//            }
-//
-//            override fun onResponse(
-//                call: Call<ArticlesResult>,
-//                response: Response<ArticlesResult>
-//            ) {
-//                if (response.isSuccessful) {
-//                    Log.i(
-//                        "SOURCE ARTICLES",
-//                        "Total articles from $sourceId : ${response.body()?.totalResults ?: 0}"
-//                    )
-//                    articleList = response.body()?.articles ?: emptyList()
-//                    mView.setArticles(articleList)
-//                    mView.hideProgressBar()
-//                } else {
-//                    mView.hideProgressBar()
-//                }
-//            }
-//        })
     }
 
     /**
      * func to filter articles by title
      * @param title
      * */
-    @SuppressLint("DefaultLocale")
+    @SuppressLint("DefaultLocale", "CheckResult")
     override fun searchArticlesByTitle(title: String?) {
-        title?.let {
-            filterArticleList =
-                articleList.filter {
-                    it.title!!.toLowerCase().contains(title.toLowerCase())
-                }
-        }
-        if (filterArticleList.isEmpty()) {
-            mView.showNoSearchResult(title)
-        } else mView.hideNoSearchResult()
 
-        mView.setArticles(filterArticleList)
+        Observable.fromIterable(articleList)
+            .filter {
+                it.title!!.toLowerCase().contains(title!!.toLowerCase())
+            }
+            .toList()
+            .subscribe { articles ->
+                if (articles.isEmpty()){
+                    mView.showNoSearchResult(title)
+                } else mView.hideNoSearchResult()
+
+                mView.setArticles(articles)
+            }
     }
 
     override fun setView(view: SourceArticlesContract.View) {
