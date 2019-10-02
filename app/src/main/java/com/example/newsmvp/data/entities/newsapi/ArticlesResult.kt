@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName
 data class ArticlesResult(
     @SerializedName("status")
     @Expose
-    val status: String,
+    var status: String,
 
     @SerializedName("totalResults")
     @Expose
-    val totalResults: Int,
+    var totalResults: Int,
 
     @SerializedName("articles")
     @Expose
-    val articles: List<Article>
+    var articles: List<Article>
 )

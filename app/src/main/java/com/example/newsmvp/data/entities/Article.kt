@@ -1,12 +1,12 @@
 package com.example.newsmvp.data.entities
 
 data class Article(
-    val source: Source,
-    val author: String?,
-    val title: String?,
-    val description: String,
-    val url: String,
-    val urlToImage: String,
-    val publishedAt: String,
-    val content: String
+    var source: Source,
+    var author: String? = null,
+    var title: String? = null,
+    var description: String,
+    var url: String,
+    var urlToImage: String,
+    var publishedAt: String,
+    var content: String
 )
