@@ -1,6 +1,7 @@
 package com.example.newsmvp.presentation.newssources
 
 import com.example.newsmvp.data.entities.Source
+import com.example.newsmvp.presentation.common.BaseView
 
 class NewsSourcesContract {
     interface View {

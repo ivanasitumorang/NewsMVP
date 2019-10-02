@@ -7,6 +7,8 @@ import android.view.View.*
 import android.widget.SearchView
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Article
+import com.example.newsmvp.external.AppSchedulerProvider
+import com.example.newsmvp.external.SchedulerProvider
 import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_ID
@@ -19,6 +21,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     private lateinit var mPresenter: SourceArticlePresenter
     private lateinit var mAdapter: NewsAdapter
     private lateinit var mActivityNavigation: ActivityNavigation
+    private lateinit var mSchedulerProvider: SchedulerProvider
 
     private var sourceId = ""
     private var sourceName = ""
@@ -26,7 +29,8 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_source_articles)
-        mPresenter = SourceArticlePresenter()
+        mSchedulerProvider = AppSchedulerProvider()
+        mPresenter = SourceArticlePresenter(mSchedulerProvider)
         mPresenter.setView(this)
 
         val bundle = intent.extras

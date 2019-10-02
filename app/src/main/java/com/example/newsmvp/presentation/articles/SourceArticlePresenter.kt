@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.network.NewsApi
+import com.example.newsmvp.external.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,12 +14,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SourceArticlePresenter : SourceArticlesContract.Presenter {
+class SourceArticlePresenter (val schedulerProvider: SchedulerProvider) : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
-    //    private lateinit var mCall: Call<ArticlesResult>
     var articleList = emptyList<Article>()
-    private var filterArticleList = emptyList<Article>()
     private var mCompositeDisposable = CompositeDisposable()
 
     /**
@@ -30,8 +29,8 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
         mCompositeDisposable.add(
             NewsApi.retrofitService
                 .getArticlesBySource(NewsApi.API_KEY, sourceId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     { articleResult ->
                         articleList = articleResult.articles
@@ -71,7 +70,6 @@ class SourceArticlePresenter : SourceArticlesContract.Presenter {
 
     override fun cancelFetchArticles() {
         mCompositeDisposable.clear()
-//        mCall.cancel()
     }
 
 }

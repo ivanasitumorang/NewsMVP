@@ -5,6 +5,8 @@ import com.example.newsmvp.data.entities.Source
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.entities.newsapi.SourcesResult
 import com.example.newsmvp.data.network.NewsApi
+import com.example.newsmvp.external.SchedulerProvider
+import com.example.newsmvp.presentation.common.BasePresenter
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,32 +17,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsSourcesPresenter : NewsSourcesContract.Presenter {
+class NewsSourcesPresenter constructor(val schedulerProvider: SchedulerProvider) : NewsSourcesContract.Presenter {
+
 
     private lateinit var mView: NewsSourcesContract.View
-    private var mCompositeDisposable = CompositeDisposable()
     private lateinit var disposable : Disposable
 
     override fun fetchNewsSources(language: String, country: String) {
         mView.showProgressBar()
-//        mCompositeDisposable.add(
-//            NewsApi.retrofitService
-//                .getNewsSources(NewsApi.API_KEY, language, country)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(
-//                    { sourceResult ->
-//                        mView.setNewsSources(sourceResult.sources)
-//                        mView.hideProgressBar()
-//                    },
-//                    {
-//                        mView.hideProgressBar()
-//                    })
-//        )
         disposable = NewsApi.retrofitService
                 .getNewsSources(NewsApi.API_KEY, language, country)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     { sourceResult ->
                         mView.setNewsSources(sourceResult.sources)
