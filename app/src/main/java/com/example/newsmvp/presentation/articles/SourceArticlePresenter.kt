@@ -16,11 +16,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class SourceArticlePresenter @Inject constructor (private val service: NewsApiService, private val schedulerProvider: SchedulerProvider) : SourceArticlesContract.Presenter {
+class SourceArticlePresenter @Inject constructor (private val service: NewsApiService, private val schedulerProvider: SchedulerProvider, private val compositeDisposable: CompositeDisposable) : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
     var articleList = emptyList<Article>()
-    private var mCompositeDisposable = CompositeDisposable()
 
     /**
      * func to fetch articles by certain source from endpoint
@@ -28,7 +27,7 @@ class SourceArticlePresenter @Inject constructor (private val service: NewsApiSe
      * */
     override fun fetchArticlesBySource(sourceId: String) {
         mView.showProgressBar()
-        mCompositeDisposable.add(
+        compositeDisposable.add(
             service
                 .getArticlesBySource(NewsApi.API_KEY, sourceId)
                 .observeOn(schedulerProvider.ui())
@@ -71,7 +70,7 @@ class SourceArticlePresenter @Inject constructor (private val service: NewsApiSe
     }
 
     override fun cancelFetchArticles() {
-        mCompositeDisposable.clear()
+        compositeDisposable.clear()
     }
 
 }

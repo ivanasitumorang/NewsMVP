@@ -4,6 +4,7 @@ import com.example.newsmvp.data.network.NewsApiService
 import com.example.newsmvp.external.AppSchedulerProvider
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
@@ -11,7 +12,7 @@ class NewsSourcesModule {
 
     @Provides
     @Singleton
-    fun provideNewsSourcesPresenter(service: NewsApiService, schedulerProvider: AppSchedulerProvider): NewsSourcesPresenter {
-        return NewsSourcesPresenter(service, schedulerProvider)
+    fun provideNewsSourcesPresenter(service: NewsApiService, schedulerProvider: AppSchedulerProvider, compositeDisposable: CompositeDisposable): NewsSourcesPresenter {
+        return NewsSourcesPresenter(service, schedulerProvider, compositeDisposable)
     }
 }

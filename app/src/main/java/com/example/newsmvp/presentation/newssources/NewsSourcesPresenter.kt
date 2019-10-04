@@ -20,15 +20,21 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class NewsSourcesPresenter @Inject constructor(private val service: NewsApiService, private val schedulerProvider: SchedulerProvider) : NewsSourcesContract.Presenter {
+class NewsSourcesPresenter @Inject constructor(
+    private val service: NewsApiService,
+    private val schedulerProvider: SchedulerProvider,
+    private val compositeDisposable: CompositeDisposable
+) : NewsSourcesContract.Presenter {
 
 
     private lateinit var mView: NewsSourcesContract.View
-    private lateinit var disposable : Disposable
+//    @Inject
+//    lateinit var mCompositeDisposable: CompositeDisposable
 
     override fun fetchNewsSources(language: String, country: String) {
         mView.showProgressBar()
-        disposable = service
+        compositeDisposable.add(
+            service
                 .getNewsSources(NewsApi.API_KEY, language, country)
                 .observeOn(schedulerProvider.ui())
                 .subscribeOn(schedulerProvider.io())
@@ -40,6 +46,7 @@ class NewsSourcesPresenter @Inject constructor(private val service: NewsApiServi
                     {
                         mView.hideProgressBar()
                     })
+        )
     }
 
     override fun setView(view: NewsSourcesContract.View) {
@@ -47,6 +54,6 @@ class NewsSourcesPresenter @Inject constructor(private val service: NewsApiServi
     }
 
     override fun cancelFetchSources() {
-        disposable.dispose()
+        compositeDisposable.clear()
     }
 }
