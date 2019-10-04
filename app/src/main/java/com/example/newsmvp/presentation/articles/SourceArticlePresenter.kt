@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.data.entities.newsapi.ArticlesResult
 import com.example.newsmvp.data.network.NewsApi
+import com.example.newsmvp.data.network.NewsApiService
 import com.example.newsmvp.external.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,8 +14,9 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class SourceArticlePresenter (val schedulerProvider: SchedulerProvider) : SourceArticlesContract.Presenter {
+class SourceArticlePresenter @Inject constructor (private val service: NewsApiService, private val schedulerProvider: SchedulerProvider) : SourceArticlesContract.Presenter {
 
     private lateinit var mView: SourceArticlesContract.View
     var articleList = emptyList<Article>()
@@ -27,7 +29,7 @@ class SourceArticlePresenter (val schedulerProvider: SchedulerProvider) : Source
     override fun fetchArticlesBySource(sourceId: String) {
         mView.showProgressBar()
         mCompositeDisposable.add(
-            NewsApi.retrofitService
+            service
                 .getArticlesBySource(NewsApi.API_KEY, sourceId)
                 .observeOn(schedulerProvider.ui())
                 .subscribeOn(schedulerProvider.io())

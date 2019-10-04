@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.*
 import android.widget.SearchView
+import com.example.newsmvp.NewsApp
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Article
 import com.example.newsmvp.external.AppSchedulerProvider
@@ -15,13 +16,13 @@ import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companio
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_NAME
 import kotlinx.android.synthetic.main.activity_source_articles.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
+import javax.inject.Inject
 
 class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View {
 
-    private lateinit var mPresenter: SourceArticlePresenter
+    @Inject lateinit var mPresenter: SourceArticlePresenter
     private lateinit var mAdapter: NewsAdapter
     private lateinit var mActivityNavigation: ActivityNavigation
-    private lateinit var mSchedulerProvider: SchedulerProvider
 
     private var sourceId = ""
     private var sourceName = ""
@@ -29,8 +30,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_source_articles)
-        mSchedulerProvider = AppSchedulerProvider()
-        mPresenter = SourceArticlePresenter(mSchedulerProvider)
+        (application as NewsApp).appComponent.inject(this)
         mPresenter.setView(this)
 
         val bundle = intent.extras

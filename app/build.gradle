@@ -13,6 +13,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "NEWSAPI_BASE_URL", "\"https://newsapi.org/\""
+        buildConfigField "String", "NEWSAPI_API_KEY", "\"12a73ae6bd25447e96fbe42b5a320ffc\""
     }
     buildTypes {
         release {

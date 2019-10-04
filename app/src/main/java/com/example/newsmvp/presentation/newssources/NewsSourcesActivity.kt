@@ -3,6 +3,7 @@ package com.example.newsmvp.presentation.newssources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.*
+import com.example.newsmvp.NewsApp
 import com.example.newsmvp.R
 import com.example.newsmvp.data.entities.Source
 import com.example.newsmvp.external.AppSchedulerProvider
@@ -11,13 +12,13 @@ import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
 import kotlinx.android.synthetic.main.activity_news_sources.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
+import javax.inject.Inject
 
 class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
-    private lateinit var mPresenter: NewsSourcesPresenter
+    @Inject lateinit var mPresenter: NewsSourcesPresenter
     private lateinit var mAdapter: NewsAdapter
     private lateinit var mActivityNavigation: ActivityNavigation
-    private lateinit var mSchedulerProvider: SchedulerProvider
 
     companion object {
         const val TAG_SOURCE_ID = "SOURCE_ID"
@@ -27,8 +28,7 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_sources)
-        mSchedulerProvider = AppSchedulerProvider()
-        mPresenter = NewsSourcesPresenter(mSchedulerProvider)
+        (application as NewsApp).appComponent.inject(this)
         mPresenter.setView(this)
         setupUI()
         initializeData()
