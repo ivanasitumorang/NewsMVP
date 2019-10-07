@@ -29,10 +29,11 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     private var sourceName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_source_articles)
 //        (application as NewsApp).appComponent.inject(this)
-        AndroidInjection.inject(this)
+
         mPresenter.setView(this)
 
         val bundle = intent.extras
