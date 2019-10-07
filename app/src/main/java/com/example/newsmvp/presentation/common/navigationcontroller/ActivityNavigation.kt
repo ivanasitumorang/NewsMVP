@@ -8,7 +8,7 @@ import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companio
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_NAME
 import com.example.newsmvp.presentation.webview.WebViewActivity
 
-class ActivityNavigation internal constructor(val activity: AppCompatActivity){
+class ActivityNavigation internal constructor(private val activity: AppCompatActivity){
 
     /**
      * Navigate To Source's Articles

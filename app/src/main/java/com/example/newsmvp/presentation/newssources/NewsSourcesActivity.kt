@@ -54,7 +54,6 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
     }
 
     override fun setNavigation() {
-        mActivityNavigation = ActivityNavigation(this)
     }
 
     override fun setRecyclerView() {

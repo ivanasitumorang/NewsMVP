@@ -104,7 +104,6 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     }
 
     override fun setNavigation() {
-        mActivityNavigation = ActivityNavigation(this)
     }
 
     override fun setupUI() {
