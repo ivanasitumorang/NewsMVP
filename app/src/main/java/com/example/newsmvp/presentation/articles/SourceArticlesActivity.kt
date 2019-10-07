@@ -14,6 +14,7 @@ import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_ID
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_NAME
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_source_articles.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
 import javax.inject.Inject
@@ -30,7 +31,8 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_source_articles)
-        (application as NewsApp).appComponent.inject(this)
+//        (application as NewsApp).appComponent.inject(this)
+        AndroidInjection.inject(this)
         mPresenter.setView(this)
 
         val bundle = intent.extras

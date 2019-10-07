@@ -1,5 +1,6 @@
 package com.example.newsmvp.di.module
 
+import android.content.Context
 import com.example.newsmvp.BuildConfig
 import com.example.newsmvp.data.network.NewsApiService
 import com.google.gson.GsonBuilder
@@ -10,7 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class NetworkModule {
+class NetworkModule (private val context: Context) {
     @Provides
     fun provideRestClientRetrofit() : Retrofit {
         val retrofit = Retrofit.Builder()

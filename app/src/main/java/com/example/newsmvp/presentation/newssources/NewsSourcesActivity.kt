@@ -10,6 +10,7 @@ import com.example.newsmvp.external.AppSchedulerProvider
 import com.example.newsmvp.external.SchedulerProvider
 import com.example.newsmvp.presentation.adapter.NewsAdapter
 import com.example.newsmvp.presentation.common.navigationcontroller.ActivityNavigation
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_news_sources.*
 import kotlinx.android.synthetic.main.toolbar_activity.*
 import javax.inject.Inject
@@ -28,7 +29,8 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_sources)
-        (application as NewsApp).appComponent.inject(this)
+//        (application as NewsApp).appComponent.inject(this)
+        AndroidInjection.inject(this)
         mPresenter.setView(this)
         setupUI()
         initializeData()
