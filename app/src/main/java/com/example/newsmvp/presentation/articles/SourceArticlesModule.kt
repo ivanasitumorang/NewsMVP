@@ -18,6 +18,7 @@ class SourceArticlesModule {
         return SourceArticlePresenter(service, schedulerProvider, compositeDisposable)
     }
 
+    @Provides
     @ActivityScope
     fun provideNavigationController(activity: SourceArticlesActivity) : ActivityNavigation
             = ActivityNavigation(activity)

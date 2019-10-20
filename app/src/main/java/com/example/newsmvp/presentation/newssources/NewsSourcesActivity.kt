@@ -19,7 +19,7 @@ class NewsSourcesActivity : AppCompatActivity(), NewsSourcesContract.View {
 
     @Inject lateinit var mPresenter: NewsSourcesPresenter
     private lateinit var mAdapter: NewsAdapter
-    private lateinit var mActivityNavigation: ActivityNavigation
+    @Inject lateinit var mActivityNavigation: ActivityNavigation
 
     companion object {
         const val TAG_SOURCE_ID = "SOURCE_ID"

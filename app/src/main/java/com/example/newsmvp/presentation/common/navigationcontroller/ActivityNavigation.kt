@@ -7,8 +7,9 @@ import com.example.newsmvp.presentation.articles.SourceArticlesActivity
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_ID
 import com.example.newsmvp.presentation.newssources.NewsSourcesActivity.Companion.TAG_SOURCE_NAME
 import com.example.newsmvp.presentation.webview.WebViewActivity
+import javax.inject.Inject
 
-class ActivityNavigation internal constructor(private val activity: AppCompatActivity){
+class ActivityNavigation @Inject constructor(private val activity: AppCompatActivity){
 
     /**
      * Navigate To Source's Articles

@@ -12,11 +12,13 @@ import javax.inject.Singleton
 @Module
 class NewsSourcesModule {
 
+//    @Provides
     @ActivityScope
     fun provideNewsSourcesPresenter(service: NewsApiService, schedulerProvider: AppSchedulerProvider, compositeDisposable: CompositeDisposable): NewsSourcesPresenter {
         return NewsSourcesPresenter(service, schedulerProvider, compositeDisposable)
     }
 
+    @Provides
     @ActivityScope
     fun provideNavigationController(activity: NewsSourcesActivity) : ActivityNavigation
             = ActivityNavigation(activity)
