@@ -23,7 +23,7 @@ class SourceArticlesActivity : AppCompatActivity(), SourceArticlesContract.View 
 
     @Inject lateinit var mPresenter: SourceArticlePresenter
     private lateinit var mAdapter: NewsAdapter
-    private lateinit var mActivityNavigation: ActivityNavigation
+    @Inject lateinit var mActivityNavigation: ActivityNavigation
 
     private var sourceId = ""
     private var sourceName = ""
